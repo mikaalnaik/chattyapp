@@ -1,12 +1,21 @@
 import React, {Component} from 'react';
 
+
+
+
 class Message extends Component {
+  constructor(props){
+    super(props);
+
+  }
+
   render() {
+
     return (
-      <div>
-        <span className="message-username">Anonymous1</span>
-        <span className="message-content">I won't be impressed with technology until I can download food.</span>
-      </div>
+      <p>
+        <span className="message-username">{this.props.message.username}</span>
+        <span className="message-content">{this.props.message.content}</span>
+      </p>
 
     );
   }
