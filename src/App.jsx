@@ -5,9 +5,11 @@ import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
 
 
-
 // import {messages} from '../build/messages';
 // const messages = require('../build/messages.json')
+
+
+
 
 class App extends Component {
   constructor(props){
@@ -31,6 +33,20 @@ class App extends Component {
 }
   }
 
+  handleUserChange = name => {
+    console.log(name)
+  }
+
+   handleMessageSubmit = content => {
+     const username = this.state.currentUser.name;
+     const message = {
+       username,
+       content
+     }
+     const messages = [...this.state.messages, message]
+     this.setState({messages})
+  }
+
 
 
   componentDidMount() {
@@ -50,19 +66,10 @@ class App extends Component {
 
   render() {
 
-    let handleSubmit = (e) => {
-      event.preventDefault();
-      const newMessage = {
-        username: event.target.username.value,
-        content: event.target.content.value
-      }
-      const messages = this.props.messages.concat(newMessage)
-      this.setState({messages:messages})
-    }
     return (
       <div >
       <MessageList messages={this.state.messages} />
-      <ChatBar name={this.state.currentUser.name} handleSubmit={this.handleSubmit} placeholder="Type a message and hit ENTER"/>
+      <ChatBar name={this.state.currentUser.name} handleUserChange={this.handleUserChange}  onMessageSubmit={this.handleMessageSubmit} placeholder="Type a message and hit ENTER"/>
       </div>
 
 
