@@ -13,11 +13,15 @@ class MessageList extends Component {
   render() {
 
     let MessageOutput = this.props.messages.map((message, index) => (
-      <div key={index}>
+
+
+      <div key={message.id}>
     <Message message={message} />
     </div>
-    ))
 
+
+
+    ))
 
 
     return (

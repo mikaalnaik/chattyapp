@@ -11,6 +11,12 @@ class Message extends Component {
 
   render() {
 
+    if(!this.props.message.username){
+      return (<div className="notification">
+  <span className="notification-content">{this.props.message.content}</span>
+</div>)
+} else {
+
     return (
       <p>
         <span className="message-username">{this.props.message.username}</span>
@@ -19,5 +25,6 @@ class Message extends Component {
 
     );
   }
+}
 }
 export default Message;
