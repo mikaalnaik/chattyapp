@@ -17,3 +17,6 @@ handleUserChange = newUsername => {
   this.setState(this.state.currentUser.name: {newUsername})
 }handleUserChange={this.handleUserChange}
   onChange={this.props.handleUserChange.bind(this)}
+
+  const messages = [...this.state.messages, message]
+     Line 39 App.jsx this.setState({messages})

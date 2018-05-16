@@ -11,7 +11,7 @@ class ChatBar extends Component {
   handleKeyPress = (e) => {
     if(e.key === 'Enter'){
       let tempName = document.getElementById('chatbar-username')
-      console.log(tempName)
+      // console.log(tempName)
 
       this.props.onMessageSubmit(e.target.value)
       e.target.value = ''

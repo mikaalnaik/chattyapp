@@ -1,14 +1,6 @@
-import React, {
-  Component
-} from 'react';
+import React, { Component } from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
-
-
-// import {messages} from '../build/messages';
-// const messages = require('../build/messages.json')
-
-
 
 
 class App extends Component {
@@ -61,6 +53,11 @@ class App extends Component {
     // Calling setState will trigger a call to render() in App and all child components.
     this.setState({messages: messages})
   }, 3000);
+
+  this.socket = new WebSocket("ws://localhost:3001");
+
+
+
 }
 
 
@@ -69,7 +66,11 @@ class App extends Component {
     return (
       <div >
       <MessageList messages={this.state.messages} />
-      <ChatBar name={this.state.currentUser.name} handleUserChange={this.handleUserChange}  onMessageSubmit={this.handleMessageSubmit} placeholder="Type a message and hit ENTER"/>
+      <ChatBar name={this.state.currentUser.name}
+      handleUserChange={this.handleUserChange}
+      onMessageSubmit={this.handleMessageSubmit}
+      placeholder="Type a message and hit ENTER"
+      />
       </div>
 
 
