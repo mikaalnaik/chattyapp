@@ -9,12 +9,14 @@ const PORT = 3001;
 
 // Create a new express server
 const server = express()
-   // Make the express server serve static assets (html, javascript, css) from the /public folder
+  // Make the express server serve static assets (html, javascript, css) from the /public folder
   .use(express.static('public'))
   .listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${ PORT }`));
 
 // Create the WebSockets server
-const wss = new SocketServer({ server });
+const wss = new SocketServer({
+  server
+});
 
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
@@ -22,6 +24,21 @@ const wss = new SocketServer({ server });
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
+
+  console.log(wss.clients.size, "Number of clients")
+  wss.clients.forEach(function each(client){
+    const users = {
+      numberofUsers : wss.clients.size,
+      type : 'userNumber'
+    }
+    let messageUser = {
+      message: users
+    }
+    let message = JSON.stringify(messageUser)
+    console.log(message);
+    client.send(message)
+  })
+
   ws.on("message", function incoming(message) {
     let key = uuidv1();
     console.log(key);
@@ -30,33 +47,49 @@ wss.on('connection', (ws) => {
 
     let parsedMessage = JSON.parse(message);
 
-    switch(parsedMessage.message.type){
-      case( "postMessage"):
-      console.log('parsed',parsedMessage);
-      parsedMessage.message.id = key
-      parsedMessage.message.type = "incomingMessage"
-      message = JSON.stringify(parsedMessage);
-      console.log(parsedMessage)
-      wss.clients.forEach(function each(client) {
-      client.send(message);
-      });
-      break;
-      case "postNotification":
-      console.log('parsed',parsedMessage);
-      parsedMessage.message.type = "incomingNotification"
-      message = JSON.stringify(parsedMessage);
-      console.log("Changed Type" ,parsedMessage)
-      wss.clients.forEach(function each(client) {
-            client.send(message);
+    switch (parsedMessage.message.type) {
 
-            });
-            break;
+      case ("postMessage"):
+        console.log('parsed', parsedMessage);
+        parsedMessage.message.id = key
+        parsedMessage.message.type = "incomingMessage"
+        message = JSON.stringify(parsedMessage);
+        console.log(parsedMessage)
+        wss.clients.forEach(function each(client) {
+          client.send(message);
+        });
+        break;
+
+      case "postNotification":
+        console.log('parsed', parsedMessage);
+        parsedMessage.message.type = "incomingNotification"
+        message = JSON.stringify(parsedMessage);
+        console.log("Changed Type", parsedMessage)
+        wss.clients.forEach(function each(client) {
+          client.send(message);
+
+        });
+        break;
     }
 
-
-
-
-  // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
 });
-});
+    console.log(wss.clients.size, "Number of clients")
+
+
+    // Set up a callback for when a client closes the socket. This usually means they closed their browser.
+    ws.on('close', () => {
+      console.log('Client disconnected')
+      wss.clients.forEach(function each(client){
+        const users = {
+          numberofUsers : wss.clients.size,
+          type : 'userNumber'
+        }
+        let messageUser = {
+          message: users
+        }
+        let message = JSON.stringify(messageUser)
+        console.log(message);
+        client.send(message)
+      })
+  });
+  });

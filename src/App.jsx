@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
-
+import NavBar from './NavBar.jsx';
 
 class App extends Component {
   constructor(props){
@@ -9,7 +9,8 @@ class App extends Component {
     this.state = {
   currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
   messages: [],
-  id: ""
+  id: "",
+
 }
   }
 
@@ -41,12 +42,12 @@ class App extends Component {
   this.socket = new WebSocket("ws://localhost:3001", "Howdy");
 
    this.socket.addEventListener("message", event => {
+     console.log(event.data);
      let message = JSON.parse(event.data);
 
-
      switch(message.message.type){
+
        case "incomingMessage":
-       console.log(event.data);
        const messageFormat = {
          username: message.message.username,
          content: message.message.content,
@@ -55,6 +56,7 @@ class App extends Component {
        let messages = [...this.state.messages, messageFormat]
        this.setState({messages});
       break;
+
      case "incomingNotification":
       console.log(event.data)
       const notifyMessage = {
@@ -65,15 +67,23 @@ class App extends Component {
        messages = [...this.state.messages, notifyMessage]
       this.setState({messages});
      break;
+
+      case "userNumber":
+        const displayUserNumber = message.message.numberofUsers
+        console.log("Numbeer of users" ,displayUserNumber);
+        this.setState({displayUserNumber})
+        console.log(this.state);
+break;
      default:
-     throw new Error("Unknown data type" , message.message.type)
+     console.log("Unknown data type")
    }
    });
 }
 
   render() {
     return (
-      <div >
+      <div>
+      <NavBar userNums ={this.state.displayUserNumber}/>
       <MessageList messages={this.state.messages}
       updateUser={this.state.messages}
       />
