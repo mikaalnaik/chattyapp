@@ -18,18 +18,31 @@ const wss = new SocketServer({
   server
 });
 
+let colorPicker = [ "#f4511e", "#43a047", "#1e88e5", "#d81b60"]
+let colourPickerNumber = 0
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
+// console.log('WSS CLIENTS', wss.clients);
+  const colorMessage = {
+    message:{
+      type: "currentUser",
+      color: colorPicker[colourPickerNumber]
+    }
+  }
+  colourPickerNumber++
+  let message = JSON.stringify(colorMessage)
+  ws.send(message);
+
 
   console.log(wss.clients.size, "Number of clients")
   wss.clients.forEach(function each(client){
     const users = {
       numberofUsers : wss.clients.size,
-      type : 'userNumber'
+      type : 'userNumber',
     }
     let messageUser = {
       message: users
@@ -38,6 +51,8 @@ wss.on('connection', (ws) => {
     console.log(message);
     client.send(message)
   })
+
+
 
   ws.on("message", function incoming(message) {
     let key = uuidv1();
@@ -52,7 +67,7 @@ wss.on('connection', (ws) => {
       case ("postMessage"):
         console.log('parsed', parsedMessage);
         parsedMessage.message.id = key
-        parsedMessage.message.type = "incomingMessage"
+        parsedMessage.message.type = "incomingMessage",
         message = JSON.stringify(parsedMessage);
         console.log(parsedMessage)
         wss.clients.forEach(function each(client) {

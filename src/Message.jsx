@@ -9,8 +9,12 @@ class Message extends Component {
 
   }
 
-  render() {
 
+  render() {
+    let userColor = {
+      color : this.props.message.color
+    }
+    console.log('userColor', userColor)
     if(!this.props.message.username){
       return (<div className="notification">
   <span className="notification-content">{this.props.message.content}</span>
@@ -19,7 +23,7 @@ class Message extends Component {
 
     return (
       <p>
-        <span className="message-username">{this.props.message.username}</span>
+        <span className="message-username" style={userColor}>{this.props.message.username}</span>
         <span className="message-content">{this.props.message.content}</span>
       </p>
 

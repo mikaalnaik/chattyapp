@@ -16,7 +16,7 @@ class MessageList extends Component {
 
 
       <div key={message.id}>
-    <Message message={message} />
+    <Message message={message} color={this.props.message} />
     </div>
 
 
@@ -26,7 +26,6 @@ class MessageList extends Component {
 
     return (
       <main className="messages">
-
       {MessageOutput}
       <div className="message">
       </div>
