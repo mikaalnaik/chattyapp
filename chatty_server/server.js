@@ -3,6 +3,8 @@
 const express = require('express');
 const SocketServer = require('ws').Server;
 const uuidv1 = require('uuid/v1');
+const querystring = require('querystring');
+const fetch = require('node-fetch');
 
 // Set the port to 3001
 const PORT = 3001;
@@ -64,7 +66,28 @@ wss.on('connection', (ws) => {
 
     switch (parsedMessage.message.type) {
 
-      case ("postMessage"):
+      case ("postMessage")  :
+
+      console.log(parsedMessage);
+      console.log(parsedMessage.content);
+      if(matches = parsedMessage.message.content.match(/^\/giphy (.+)$/)){
+        let qs = querystring.stringify({
+          api_key:  "pqBD9bzOZRx8r53d3tOI2VpFkl17ExIg",
+          tag: matches[1]
+    });
+    fetch(`https://api.giphy.com/v1/gifs/random?${qs}`)
+      .then( resp => {return resp.json() } )
+      .then( json => {
+        parsedMessage.message.content = `<img src="${json.data.image_url}" alt=""/>`
+        parsedMessage.message.id = key
+        parsedMessage.message.type = "incomingMessage"
+        var message = JSON.stringify(parsedMessage);
+        wss.clients.forEach(function each(client) {
+          client.send(message)
+        })
+        console.log(`Sent: ${message}`);
+      })
+    } else {
         console.log('parsed', parsedMessage);
         parsedMessage.message.id = key
         parsedMessage.message.type = "incomingMessage",
@@ -73,6 +96,7 @@ wss.on('connection', (ws) => {
         wss.clients.forEach(function each(client) {
           client.send(message);
         });
+      }
         break;
 
       case "postNotification":
