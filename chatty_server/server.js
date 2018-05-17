@@ -35,6 +35,7 @@ wss.on('connection', (ws) => {
       color: colorPicker[colourPickerNumber]
     }
   }
+  console.log(colorMessage);
   colourPickerNumber++
   let message = JSON.stringify(colorMessage)
   ws.send(message);
@@ -71,6 +72,7 @@ wss.on('connection', (ws) => {
       console.log(parsedMessage);
       console.log(parsedMessage.content);
       if(matches = parsedMessage.message.content.match(/^\/giphy (.+)$/)){
+        console.log(matches);
         let qs = querystring.stringify({
           api_key:  "pqBD9bzOZRx8r53d3tOI2VpFkl17ExIg",
           tag: matches[1]
@@ -87,6 +89,17 @@ wss.on('connection', (ws) => {
         })
         console.log(`Sent: ${message}`);
       })
+    } else if(parsedMessage.message.content.match(/png|jpg|gif/)){
+      console.log(parsedMessage.message.content);
+      parsedMessage.message.content = `<img src="${parsedMessage.message.content}" style="width:40vh" alt=""/>`
+      parsedMessage.message.id = key
+      parsedMessage.message.type = "incomingMessage"
+      var message = JSON.stringify(parsedMessage);
+      wss.clients.forEach(function each(client) {
+        client.send(message)
+      })
+      console.log(`Sent: ${message}`);
+
     } else {
         console.log('parsed', parsedMessage);
         parsedMessage.message.id = key

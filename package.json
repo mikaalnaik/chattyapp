@@ -4,7 +4,10 @@
   "description": "Simple and lightweight Boilerplate for ReactJS projects",
   "scripts": {
     "lint": "eslint --ext .jsx,.js src",
-    "start": "node server.js"
+    "start": "node server.js",
+    "predeploy": "npm run build",
+    "deploy": "npm run build&&gh-pages -d build",
+    "deploy": "gh-pages -d build"
   },
   "repository": {
     "type": "git",
@@ -24,7 +27,7 @@
   "bugs": {
     "url": "https://github.com/noahlotzer/react-simple-boilerplate/issues"
   },
-  "homepage": "https://github.com/noahlotzer/react-simple-boilerplate",
+  "homepage": "https://mikaalnaik.github.io/chattyapp",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -46,6 +49,7 @@
   },
   "dependencies": {
     "fetch": "^1.1.0",
+    "gh-pages": "^1.1.0",
     "querystring": "^0.2.0",
     "react": "15.4.2",
     "react-dom": "15.4.2"

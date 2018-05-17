@@ -23,7 +23,7 @@ class Message extends Component {
 
     return (
       <p>
-        <span className="message-username" style={userColor}>{this.props.message.username}</span>
+        <span className="message-username" style= {userColor} >{this.props.message.username}</span>
 <span className="content" dangerouslySetInnerHTML={{__html: this.props.message.content}}></span>
 </p>
 
