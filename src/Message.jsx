@@ -9,7 +9,6 @@ class Message extends Component {
 
   }
 
-
   render() {
     let userColor = {
       color : this.props.message.color

@@ -14,7 +14,7 @@ class App extends Component {
   color: ""
 }
   }
-
+//sending user change
   handleUserChange = name => {
     const type = "postNotification";
     const content = `${this.state.currentUser.name} changed their name to ${name}`
@@ -25,7 +25,7 @@ class App extends Component {
     this.socket.send(JSON.stringify({message}))
     this.setState({currentUser:{name}})
   }
-
+// sending new messages
    handleMessageSubmit = content => {
      const username = this.state.currentUser.name;
      const color = this.state.color
@@ -40,6 +40,8 @@ class App extends Component {
      this.socket.send(JSON.stringify({message}))
   }
 
+
+
   componentDidMount() {
 
   console.log("componentDidMount <App />");
@@ -49,8 +51,8 @@ class App extends Component {
      console.log('eventdata listner',event.data);
      let message = JSON.parse(event.data);
 
+//evaluate the message type to display either a new message or a username change
      switch(message.message.type){
-
        case "incomingMessage":
        const messageFormat = {
          username: message.message.username,

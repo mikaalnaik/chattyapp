@@ -15,15 +15,11 @@ class ChatBar extends Component {
     }
   }
 
-
   handleUserSubmit = (e) => {
     if(e.key === 'Enter'){
       this.props.handleUserChange(e.target.value)
     }
   }
-
-
-
   render() {
     // let username = this.state.currentUser
     return (
