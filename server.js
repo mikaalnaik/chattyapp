@@ -12,7 +12,7 @@ new WebpackDevServer(webpack(config), {
       ignored: /node_modules/
     }
   })
-  .listen(PORT, '0.0.0.0', function (err, result) {
+  .listen(PORT, function (err, result) {
     if (err) {
       console.log(err);
     }
