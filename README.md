@@ -11,7 +11,7 @@ gif with that subject line.
 You can also copy and paste an image URL to send that over Chattr.
 
 
-!(https://github.com/mikaalnaik/mikaalnaik.github.io/blob/master/build/Screen%20Shot%202018-05-18%20at%208.58.51%20AM.png)
+![alt text ](https://github.com/mikaalnaik/mikaalnaik.github.io/blob/master/build/Screen%20Shot%202018-05-18%20at%208.58.51%20AM.png)
 
 ```
 
